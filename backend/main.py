@@ -8,9 +8,16 @@ from typing import List, Any, Dict
 app = FastAPI()
 
 # Allow frontend (localhost:3000) to call this API
+origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://vector-shift-mu.vercel.app",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000", "https://vector-shift-mu.vercel.app", "https://vector-shift-1tit5d4f2-shashank-shekhars-projects.vercel.app"],
+    allow_origins=origins,
+    allow_origin_regex=["https://vector-shift-1tit5d4f2-shashank-shekhars-projects.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
