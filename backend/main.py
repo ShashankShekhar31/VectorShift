@@ -8,15 +8,15 @@ from typing import List, Any, Dict
 app = FastAPI()
 
 # Allow frontend (localhost:3000) to call this API
-origins = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "https://vector-shift-mu.vercel.app",
-]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "https://vector-shift-mu.vercel.app",
+    ],
+    allow_origin_regex=r"https://vector-shift-.*\.vercel\.app",
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -31,7 +31,7 @@ class PipelineData(BaseModel):
 def is_dag(nodes: list, edges: list) -> bool:
     """Check if the graph formed by nodes and edges is a Directed Acyclic Graph."""
     # Build adjacency list
-    node_ids = {node["id"] for node in nodes}
+    node_ids = {node.get("id") for node in nodes if node.get("id")}
     adj = {nid: [] for nid in node_ids}
 
     for edge in edges:
