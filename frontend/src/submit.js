@@ -12,7 +12,9 @@ export const SubmitButton = () => {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://127.0.0.1:8000/pipelines/parse', {
+      const API = process.env.REACT_APP_API_URL;
+      
+      const response = await fetch(`${API}/pipelines/parse`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nodes, edges }),
