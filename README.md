@@ -1,3 +1,11 @@
+![React](https://img.shields.io/badge/React-19-blue?logo=react)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green?logo=fastapi)
+![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+![Vercel](https://img.shields.io/badge/Frontend-Vercel-black?logo=vercel)
+![Render](https://img.shields.io/badge/Backend-Render-46E3B7?logo=render)
+
+
 # VectorShift – Visual Pipeline Builder
 
 A modern drag-and-drop visual pipeline builder built with **React**, **React Flow**, **Zustand**, and **FastAPI**. Users can create workflows by connecting different node types on an interactive canvas and analyze the resulting pipeline through a backend API that validates whether the graph forms a **Directed Acyclic Graph (DAG)**.
@@ -323,3 +331,9 @@ to generate dynamic input handles.
 GitHub: https://github.com/ShashankShekhar31
 
 LinkedIn: https://www.linkedin.com/in/shashank-shekhar-61633a273
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
