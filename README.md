@@ -1,96 +1,262 @@
-# VectorShift Frontend Technical Assessment
+# VectorShift – Visual Pipeline Builder
 
-A drag-and-drop pipeline builder built with React and FastAPI. Create pipelines by connecting nodes on a canvas, then submit to analyze the graph structure.
+A modern drag-and-drop visual pipeline builder built with **React**, **React Flow**, **Zustand**, and **FastAPI**. Users can create workflows by connecting different node types on an interactive canvas and analyze the resulting pipeline through a backend API that validates whether the graph forms a **Directed Acyclic Graph (DAG)**.
 
 ---
 
 ## Tech Stack
 
-- **Frontend:** React, ReactFlow, Zustand
-- **Backend:** Python, FastAPI, Uvicorn
+### Frontend
+- React
+- React Flow
+- Zustand
+- CSS
+
+### Backend
+- Python
+- FastAPI
+- Uvicorn
+
+### Deployment
+- Frontend: Vercel
+- Backend: Render
+
+---
+
+## Live Demo
+
+### Frontend
+https://vector-shift-mu.vercel.app
+
+### Backend API
+https://vectorshift-backend-bay1.onrender.com
+
+### API Documentation
+https://vectorshift-backend-bay1.onrender.com/docs
 
 ---
 
 ## Project Structure
 
-```
-vectorshift-assessment/
+```text
+VectorShift/
 ├── frontend/
 │   ├── public/
 │   └── src/
 │       ├── nodes/
-│       │   ├── BaseNode.js        # Reusable node abstraction
+│       │   ├── BaseNode.js
 │       │   ├── inputNode.js
 │       │   ├── outputNode.js
 │       │   ├── llmNode.js
-│       │   ├── textNode.js        # Dynamic resize + variable handles
+│       │   ├── textNode.js
 │       │   ├── apiNode.js
 │       │   ├── conditionNode.js
 │       │   ├── noteNode.js
 │       │   ├── transformNode.js
 │       │   └── databaseNode.js
 │       ├── App.js
-│       ├── ui.js                  # ReactFlow canvas
-│       ├── toolbar.js             # Node palette
-│       ├── submit.js              # Backend integration
-│       ├── store.js               # Zustand state
-│       └── index.css              # Global styles
-└── backend/
-    └── main.py                    # FastAPI + DAG detection
+│       ├── ui.js
+│       ├── toolbar.js
+│       ├── submit.js
+│       ├── store.js
+│       └── index.css
+│
+├── backend/
+│   ├── main.py
+│   └── requirements.txt
+│
+├── SnapShots/
+│   ├── Home.png
+│   ├── Adding Tools.png
+│   └── Result.png
+│
+└── README.md
 ```
+
+---
+
+# Screenshots
+
+## Home
+
+![Home](./SnapShots/Home.png)
+
+---
+
+## Adding Nodes
+
+![Adding Tools](./SnapShots/Adding%20Tools.png)
+
+---
+
+## Pipeline Analysis Result
+
+![Result](./SnapShots/Result.png)
 
 ---
 
 ## Getting Started
 
 ### Prerequisites
-- Node.js v16+
+
+- Node.js 16+
 - Python 3.8+
 - npm
 
-### 1. Run the Backend
+---
+
+## 1. Clone Repository
 
 ```bash
-cd backend
-pip install fastapi uvicorn
-python -m uvicorn main:app --reload
+git clone <your-repository-url>
+
+cd VectorShift
 ```
-
-Backend runs at `http://127.0.0.1:8000`
-
-### 2. Run the Frontend
-
-Open a new terminal:
-
-```bash
-cd frontend
-npm install
-npm start
-```
-
-Frontend runs at `http://localhost:3000`
-
-> Make sure both servers are running before clicking Submit.
 
 ---
 
-## Features
+## 2. Backend Setup
 
-### Part 1 — Node Abstraction
-Created a `BaseNode` component that serves as the foundation for all nodes. It accepts `title`, `icon`, `headerColor`, `inputs`, and `outputs` as props — eliminating repeated code across nodes. Five new nodes were built using this abstraction: **API Call**, **Condition**, **Note**, **Transform**, and **Database**.
+```bash
+cd backend
 
-### Part 2 — Styling
-Full dark-themed UI built from scratch using CSS variables. Features include gradient headers unique to each node type, color-coded draggable node pills in the toolbar, styled ReactFlow handles and edges, a color-coded minimap, and a clean toolbar/canvas/submit layout.
+pip install -r requirements.txt
 
-### Part 3 — Text Node Logic
-The Text node supports two enhanced behaviors:
-- **Auto-resize:** The node width and textarea height grow dynamically as the user types
-- **Variable handles:** Typing `{{variableName}}` inside the text field dynamically creates a new input handle on the left side of the node, one per unique variable name
+uvicorn main:app --reload
+```
 
-### Part 4 — Backend Integration
-The Submit button sends the current pipeline (nodes + edges) as JSON to the `/pipelines/parse` endpoint. The backend calculates the number of nodes and edges, and checks whether the pipeline forms a **Directed Acyclic Graph (DAG)** using Kahn's algorithm. The result is displayed in an alert on the frontend.
+Backend runs at
 
-**API Response format:**
+```
+http://127.0.0.1:8000
+```
+
+Swagger Documentation
+
+```
+http://127.0.0.1:8000/docs
+```
+
+---
+
+## 3. Frontend Setup
+
+Open another terminal
+
+```bash
+cd frontend
+
+npm install
+
+npm start
+```
+
+Frontend runs at
+
+```
+http://localhost:3000
+```
+
+> Ensure both frontend and backend are running before submitting a pipeline.
+
+---
+
+# Features
+
+## 1. Reusable Node Architecture
+
+Implemented a reusable **BaseNode** component that powers all node types.
+
+Each node accepts configurable properties such as:
+
+- title
+- icon
+- header color
+- input handles
+- output handles
+
+Using this abstraction, the following custom nodes were created:
+
+- Input
+- Output
+- LLM
+- Text
+- API Call
+- Condition
+- Note
+- Transform
+- Database
+
+This significantly reduces duplicate code and makes adding new node types straightforward.
+
+---
+
+## 2. Interactive Pipeline Editor
+
+Built using **React Flow**, allowing users to:
+
+- Drag nodes onto the canvas
+- Connect nodes visually
+- Move nodes freely
+- Delete nodes
+- Zoom and pan
+- View workflow using the MiniMap
+
+---
+
+## 3. Modern UI
+
+Designed a responsive dark-themed interface featuring:
+
+- Gradient node headers
+- Color-coded node palette
+- Animated edges
+- Custom handles
+- Floating toolbar
+- Styled submit button
+- Interactive minimap
+
+---
+
+## 4. Dynamic Text Node
+
+The Text node supports advanced behavior.
+
+### Auto Resize
+
+The node automatically expands while typing.
+
+### Dynamic Variables
+
+Typing
+
+```text
+{{variableName}}
+```
+
+automatically creates new input handles for each unique variable detected.
+
+---
+
+## 5. Backend Integration
+
+The frontend sends the complete pipeline to the FastAPI backend.
+
+```http
+POST /pipelines/parse
+```
+
+Payload
+
+```json
+{
+  "nodes": [],
+  "edges": []
+}
+```
+
+The backend returns
+
 ```json
 {
   "num_nodes": 4,
@@ -99,12 +265,61 @@ The Submit button sends the current pipeline (nodes + edges) as JSON to the `/pi
 }
 ```
 
+The response is displayed on the frontend after pipeline analysis.
+
+---
+
+## 6. DAG Detection
+
+The backend validates whether the pipeline forms a **Directed Acyclic Graph (DAG)** using **Kahn's Algorithm**.
+
+It computes:
+
+- Total Nodes
+- Total Edges
+- DAG Validation
+
 ---
 
 ## Usage
 
-1. Drag nodes from the toolbar onto the canvas
-2. Connect nodes by dragging from one handle to another
-3. Use the **Text node** and type `{{variable}}` to create dynamic input handles
-4. Click **Submit Pipeline** to analyze the graph
-5. An alert will display node count, edge count, and DAG status
+1. Drag nodes from the toolbar.
+2. Drop them onto the canvas.
+3. Connect nodes using edges.
+4. Use the Text node with:
+
+```text
+{{variable}}
+```
+
+to generate dynamic input handles.
+
+5. Click **Submit Pipeline**.
+
+6. View:
+
+- Number of Nodes
+- Number of Edges
+- DAG Status
+
+---
+
+## Future Improvements
+
+- Save and Load Pipelines
+- Undo / Redo Support
+- Pipeline Export & Import
+- Node Search
+- Real-time Collaboration
+- Workflow Templates
+- Pipeline Execution Engine
+
+---
+
+## Author
+
+**Shashank Shekhar**
+
+GitHub: https://github.com/ShashankShekhar31
+
+LinkedIn: https://www.linkedin.com/in/shashank-shekhar-61633a273
